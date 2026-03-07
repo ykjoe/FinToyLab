@@ -10,4 +10,3 @@ jobs:
           echo "Runner 正在工作！"
           echo "当前用户: $(whoami)"
           free -h  # 看看分配给 Runner 的内存真实情况
-          
