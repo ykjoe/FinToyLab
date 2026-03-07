@@ -1,0 +1,36 @@
+version: '3'
+
+tasks:
+  run:
+    desc: Run the main program
+    cmds:
+      - source .venv/bin/activate
+      - python src/main.py
+
+  test:
+    desc: Run tests
+    cmds:
+      - source .venv/bin/activate
+      - pytest tests/
+
+  deploy:
+    desc: Deploy the application (placeholder)
+    cmds:
+      - |
+        if [ ! -d .venv ]; then
+          echo "$(date) | Create virtual environment"
+          python -m venv .venv
+        else
+          echo "$(date) | Virtual environment already exists, run 'task clean' to remove it if you want to recreate."
+        fi
+      - source .venv/bin/activate && pip install -r requirements.txt
+      - cmd: echo "$(date) | FinCapLab Deployed!"
+        silent: true
+
+  clean:
+    desc: Clean up generated files
+    cmds:
+      - rm -rf __pycache__ *.pyc *.pyo
+      - rm -rf .pytest_cache
+      - rm -rf dist build *.egg-info
+      - rm -rf .venv

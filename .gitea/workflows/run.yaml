@@ -1,0 +1,40 @@
+name: Run Application
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Choose action: run or test'
+        required: true
+        default: 'run'
+        type: choice
+        options:
+          - run
+          - test
+
+jobs:
+  run-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Task
+        run: |
+          if ! command -v task &> /dev/null; then
+            echo "Task not found. Please run deploy workflow first."
+          else
+            echo "Task is already installed"
+          fi
+
+      - name: Run selected action
+        run: |
+          if [ ! -d .venv ]; then
+            echo "Error: Virtual environment not found. Please run deploy workflow first."
+            exit 1
+          fi
+          task ${{ inputs.action }}
