@@ -8,8 +8,7 @@ on:
 jobs:
   run-app:
     runs-on: ubuntu-latest
-    env:
-      PATH: /usr/local/bin:$PATH
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
