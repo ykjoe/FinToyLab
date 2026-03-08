@@ -20,5 +20,4 @@ Financial Capacitor Laboratory - Using a program that functions like a capacitor
 - `src/`: Source code
 - `tests/`: Unit tests
 - `data/`: Database files
-- `logs/`: Log files
 - `scripts/`: Utility scripts

@@ -7,6 +7,18 @@ tasks:
       - source .venv/bin/activate
       - python src/main.py
 
+  check-format:
+    desc: Auto-format code with Ruff
+    cmds:
+      - .venv/bin/ruff format src tests
+
+  check:
+    desc: Run static analysis (Ruff + Mypy)
+    cmds:
+      - .venv/bin/ruff check src tests
+      - .venv/bin/mypy src
+    ignore_error: false
+
   test:
     desc: Run tests
     cmds:
@@ -23,9 +35,18 @@ tasks:
         else
           echo "$(date) | Virtual environment already exists, run 'task clean' to remove it if you want to recreate."
         fi
-      - source .venv/bin/activate && pip install -r requirements.txt
+      - source .venv/bin/activate 
+      - pip install --upgrade pip
+      - pip install -e .
+      - pip install -r requirements.txt
       - cmd: echo "$(date) | FinCapLab Deployed!"
         silent: true
+
+  clean-tests:
+    desc: Clean up test logs
+    cmds:
+      - rm -rf .pytest_cache
+      - rm -rf tests/logs
 
   clean:
     desc: Clean up generated files
@@ -33,4 +54,4 @@ tasks:
       - rm -rf __pycache__ *.pyc *.pyo
       - rm -rf .pytest_cache
       - rm -rf dist build *.egg-info
-      - rm -rf .venv
+      - rm -rf logs/

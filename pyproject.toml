@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fincaplab"
+version = "0.1.0"
+description = "Financial Prediction Lab with multi-API support"
+authors = [{ name = "YongkangZhou", email = "YongkangZhou@e.gzhu.edu.cn" }]
+requires-python = ">=3.10"
+dependencies = [
+    # 测试
+    "pytest>=7.0.0",
+    "pytest-mock",
+    "ruff",
+    "mypy",
+    # 项目
+    "pandas>=1.0.0",
+    "requests>=2.20.0",
+]
+
+# 支持 `pip install -e .` 直接导入
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+# --- Pytest 配置 ---
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra -q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+# --- Ruff 配置 (替代 Pylint/Black/isort) ---
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+# E: Error, F: Pyflakes, I: isort (排序), B: bugbear (找潜在Bug)
+# PT: pytest 风格检查, N: 命名规范
+select = ["E", "F", "I", "B", "PT", "N"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+# --- Mypy 配置 ---
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true  # 强制要求函数写类型注解，对金融项目极有帮助
+ignore_missing_imports = true # 某些开源项目没写类型声明时跳过报错
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false # 测试代码可以稍微写得随意一点
