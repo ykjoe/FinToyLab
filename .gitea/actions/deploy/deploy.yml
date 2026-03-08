@@ -1,0 +1,40 @@
+name: 'FinCapLab Standard Deploy'
+description: 'Checkout, cache task/venv, and run task deploy'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: Cache Task
+      uses: actions/cache@v3
+      with:
+        path: /usr/local/bin/task
+        key: task-${{ runner.os }}-latest
+
+    - name: Setup Task
+      shell: bash
+      run: |
+        if [ -f /usr/local/bin/task ]; then
+          echo "✅ Task found in cache"
+        else
+          echo "📥 Installing Task..."
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+        fi
+
+    - name: Cache Virtualenv
+      id: cache-venv
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          venv-${{ runner.os }}-
+
+    - name: Deploy application
+      shell: bash
+      run: task deploy
