@@ -8,7 +8,7 @@ on:
 jobs:
   run-app:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,6 +33,15 @@ jobs:
             echo "📥 Installing Task..."
             sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
           fi
+
+      - name: Cache Virtualenv
+        id: cache-venv
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            venv-${{ runner.os }}-
 
       - name: Deploy application
         run: task deploy
