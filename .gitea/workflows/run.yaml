@@ -8,23 +8,36 @@ on:
 jobs:
   run-app:
     runs-on: ubuntu-latest
+    env:
+      PATH: /usr/local/bin:$PATH
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Task
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Cache Task
+        uses: actions/cache@v3
+        with:
+          path: /usr/local/bin/task
+          key: task-${{ runner.os }}-latest
+
+      - name: Setup Task
         run: |
-          if ! command -v task &> /dev/null; then
-            echo "❌ Task not found. Please run deploy workflow first."
-            exit 1
+          if [ -f /usr/local/bin/task ]; then
+            echo "✅ Task found in cache"
           else
-            echo "✅ Task is already installed"
+            echo "📥 Installing Task..."
+            sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
           fi
 
-      - name: Run tests
+      - name: Deploy application
+        run: task deploy
+
+      - name: Run application
         run: |
-          if [ ! -d .venv ]; then
-            echo "❌ Virtual environment not found. Please run deploy workflow first."
-            exit 1
-          fi
-          task test
+          task run
