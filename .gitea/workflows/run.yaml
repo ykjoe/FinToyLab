@@ -11,26 +11,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        run: |
-          python3 --version
-          if ! command -v python3 &> /dev/null; then
-            echo "Python3 not found. Please run deploy workflow first."
-          fi
-          python3 -m pip install --upgrade pip
-
       - name: Install Task
         run: |
           if ! command -v task &> /dev/null; then
-            echo "Task not found. Please run deploy workflow first."
+            echo "❌ Task not found. Please run deploy workflow first."
+            exit 1
           else
-            echo "Task is already installed"
+            echo "✅ Task is already installed"
           fi
 
       - name: Run tests
         run: |
           if [ ! -d .venv ]; then
-            echo "Error: Virtual environment not found. Please run deploy workflow first."
+            echo "❌ Virtual environment not found. Please run deploy workflow first."
             exit 1
           fi
           task test
