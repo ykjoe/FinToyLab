@@ -1,15 +1,8 @@
 name: Run Application
 on:
-  workflow_dispatch:
-    inputs:
-      action:
-        description: 'Choose action: run or test'
-        required: true
-        default: 'run'
-        type: choice
-        options:
-          - run
-          - test
+  push:
+    branches:
+      - main
 
 jobs:
   run-app:
@@ -34,10 +27,10 @@ jobs:
             echo "Task is already installed"
           fi
 
-      - name: Run selected action
+      - name: Run tests
         run: |
           if [ ! -d .venv ]; then
             echo "Error: Virtual environment not found. Please run deploy workflow first."
             exit 1
           fi
-          task ${{ inputs.action }}
+          task test
