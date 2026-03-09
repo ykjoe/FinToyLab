@@ -2,7 +2,10 @@
 
 import input.collector as collect
 
-def main():
+
+def main(
+    
+) -> None:
     print("FinCapLab is running!")
     data = collect.fetch_stock_data()
     if data is not None:

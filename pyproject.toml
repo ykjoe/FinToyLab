@@ -22,7 +22,7 @@ dependencies = [
 # 支持 `pip install -e .` 直接导入
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src*"]
+include = ["fincaplab*"]
 
 # --- Pytest 配置 ---
 [tool.pytest.ini_options]
@@ -37,6 +37,7 @@ filterwarnings = [
 [tool.ruff]
 line-length = 88
 target-version = "py310"
+src = ["."]
 
 [tool.ruff.lint]
 # E: Error, F: Pyflakes, I: isort (排序), B: bugbear (找潜在Bug)
@@ -45,15 +46,24 @@ select = ["E", "F", "I", "B", "PT", "N"]
 ignore = []
 
 [tool.ruff.lint.isort]
-known-first-party = ["src"]
+known-first-party = ["fincaplab"]
 
 # --- Mypy 配置 ---
 [tool.mypy]
 python_version = "3.10"
+mypy_path = "."
+explicit_package_bases = true
+namespace_packages = true
+## 强制要求返回值
 warn_return_any = true
+## 不得保留未使用的配置
 warn_unused_configs = true
-disallow_untyped_defs = true  # 强制要求函数写类型注解，对金融项目极有帮助
-ignore_missing_imports = true # 某些开源项目没写类型声明时跳过报错
+## 强制要求函数写类型声明
+disallow_untyped_defs = true  
+ignore_missing_imports = true
+## 强制 mypy 检查你是否正确使用了包名
+warn_unused_ignores = true
+no_implicit_optional = true
 
 [[tool.mypy.overrides]]
 module = "tests.*"

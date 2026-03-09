@@ -5,19 +5,25 @@ tasks:
     desc: Run the main program
     cmds:
       - source .venv/bin/activate
-      - python src/main.py
+      - python fincaplab/main.py
 
   check-format:
     desc: Auto-format code with Ruff
     cmds:
-      - .venv/bin/ruff format src tests
+      - .venv/bin/ruff format fincaplab tests
 
   check:
-    desc: Run static analysis (Ruff + Mypy)
+    desc: Run static analysis (Ruff + Mypy) & try to fix some bug
     cmds:
-      - .venv/bin/ruff check src tests
-      - .venv/bin/mypy src
-    ignore_error: false
+      - .venv/bin/ruff check --fix fincaplab tests
+      - .venv/bin/mypy fincaplab
+    ignore_error: true
+
+  check-only:
+    desc: Check and fix error if ruff can
+    cmds:
+      - .venv/bin/ruff check fincaplab tests
+      - .venv/bin/mypy fincaplab
 
   test:
     desc: Run tests

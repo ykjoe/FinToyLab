@@ -2,7 +2,10 @@ import logging
 import sys
 from pathlib import Path
 
-def setup_logger(name: str = "FinCapLab"):
+
+def setup_logger(
+    name: str = "FinCapLab"
+) -> logging.Logger:
     """
     为 FinCapLab 配置统一的日志记录器
     """
@@ -16,7 +19,8 @@ def setup_logger(name: str = "FinCapLab"):
 
     # 1. 格式定义：包含来源模块、级别、具体信息等
     formatter = logging.Formatter(
-        '%(name)s: [%(levelname)s] %(filename)s:%(lineno)d - %(funcName)s:  %(message)s | %(asctime)s',
+        '%(name)s: [%(levelname)s] %(filename)s:%(lineno)d - %(funcName)s:  '
+        '%(message)s | %(asctime)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
 
