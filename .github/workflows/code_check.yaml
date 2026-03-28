@@ -1,23 +1,34 @@
-name: Run Application
+name: Pre-merge Checker
 on:
-  push:
+  pull_request:
     branches:
       - main
   # schedule:
   #   - cron: '0 * * * *'
   workflow_dispatch:
 
+
+
 jobs:
   run-app:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Deploy Environment
         uses: ./.github/actions/deploy
-
       - name: Run application
         run: |
           task run
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Deploy Environment
+        uses: ./.github/actions/deploy
+      - name: Run Tests
+        run: |
+          task check
+          task test
