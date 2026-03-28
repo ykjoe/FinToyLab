@@ -1,5 +1,6 @@
 import logging
 import sys
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 
@@ -32,7 +33,11 @@ def setup_logger(
     # 3. 文件 Handler (保存到 logs/ 目录下)
     log_dir = Path("logs")
     log_dir.mkdir(parents=True, exist_ok=True)
-    file_handler = logging.FileHandler(log_dir / "app.log", encoding='utf-8')
+    file_handler = RotatingFileHandler(
+        log_dir / "app.log",
+        maxBytes=512*1024*1024,
+        encoding='utf-8',
+    )
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.DEBUG) # 文件里记录最详细的 DEBUG 信息
 

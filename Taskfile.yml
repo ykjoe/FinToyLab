@@ -1,29 +1,33 @@
 version: '3'
 
+vars:
+  project_name: fincaplab
+  main_file_name: main.py
+
 tasks:
   run:
     desc: Run the main program
     cmds:
       - source .venv/bin/activate
-      - python fincaplab/main.py
+      - python {{.project_name}}/{{.main_file_name}}
 
   check-format:
     desc: Auto-format code with Ruff
     cmds:
-      - .venv/bin/ruff format fincaplab tests
+      - .venv/bin/ruff format {{.project_name}} tests
 
   check:
     desc: Run static analysis (Ruff + Mypy) & try to fix some bug
     cmds:
-      - .venv/bin/ruff check --fix fincaplab tests
-      - .venv/bin/mypy fincaplab
+      - .venv/bin/ruff check --fix {{.project_name}} tests
+      - .venv/bin/mypy {{.project_name}}
     ignore_error: true
 
   check-only:
     desc: Check and fix error if ruff can
     cmds:
-      - .venv/bin/ruff check fincaplab tests
-      - .venv/bin/mypy fincaplab
+      - .venv/bin/ruff check {{.project_name}} tests
+      - .venv/bin/mypy {{.project_name}}
 
   test:
     desc: Run tests
@@ -45,7 +49,7 @@ tasks:
       - pip install --upgrade pip
       - pip install -e .
       - pip install -r requirements.txt
-      - cmd: echo "$(date) | FinCapLab Deployed!"
+      - cmd: echo "$(date) | {{.project_name}} Deployed!"
         silent: true
 
   clean-tests:
@@ -57,6 +61,8 @@ tasks:
   clean:
     desc: Clean up generated files
     cmds:
+      - find ./{{.project_name}} -name "__pycache__" | xargs rm -rf
+      - find ./tests -name "__pycache__" | xargs rm -rf
       - rm -rf __pycache__ *.pyc *.pyo
       - rm -rf .pytest_cache
       - rm -rf dist build *.egg-info

@@ -1,0 +1,30 @@
+from typing import Optional
+
+import akshare as ak
+import pandas as pd
+from common.logger import log
+
+
+def fetch_stock_data(
+    symbol: str = "002463", 
+    period: str = "daily"
+) -> Optional[pd.DataFrame]:
+    
+    """
+    抓取指定股票的行情信号。
+    """
+
+    log.info(f"正在抓取指定股票的行情信号: {symbol}, {period}...")
+    try:
+        # 抓取数据
+        df = ak.stock_zh_a_hist(symbol=symbol, period=period, adjust="qfq")
+        
+        if df.empty:
+            log.error(f"信号丢失: {symbol} 未返回数据")
+            return None
+
+        return df
+        
+    except Exception as e:
+        log.error("Collector Fail. %s", e)
+        return None
