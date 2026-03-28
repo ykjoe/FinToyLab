@@ -5,8 +5,8 @@ from typing import Any
 import pandas as pd
 
 # Using relative imports for package portability
-from fincaplab.common.database_handler import get_db_connection, run_query
-from fincaplab.common.logger import log
+from fintoylab.common.database_handler import get_db_connection, run_query
+from fintoylab.common.logger import log
 
 
 class DailyDataCollector:

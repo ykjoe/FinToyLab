@@ -6,7 +6,7 @@ from typing import Any, Generator, List, Optional
 
 import pandas as pd
 
-from fincaplab.common.logger import log
+from fintoylab.common.logger import log
 
 DB_DEFAULT_PATH: str = "data/finsrc.db"
 

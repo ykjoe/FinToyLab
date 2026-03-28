@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import fincaplab.input.akshare_read as ak_read
+import fintoylab.input.akshare_read as ak_read
 
 
 def main(
     
 ) -> None:
-    print("FinCapLab is running!")
+    print("FinToyLab is running!")
     data = ak_read.fetch_stock_data()
     if data is not None:
         print(data[['日期', '收盘', '成交量']])

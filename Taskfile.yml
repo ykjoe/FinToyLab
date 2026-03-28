@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  project_name: fincaplab
+  project_name: fintoylab
   main_file_name: main.py
 
 tasks:
@@ -67,3 +67,9 @@ tasks:
       - rm -rf .pytest_cache
       - rm -rf dist build *.egg-info
       - rm -rf logs/
+
+  clean-all:
+    desc: Clean up all files, include environments
+    cmds:
+      - task clean
+      - rm -rf .mypy_cache .ruff_cache .venv

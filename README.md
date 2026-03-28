@@ -1,6 +1,6 @@
-# FinCapLab
+# FinToyLab
 
-Financial Capacitor Laboratory - Using a program that functions like a capacitor in a circuit, you can double your meager salary so that you can drink more cups of milk tea.
+Financial Toys Laboratory - Using some finacial toys to play with the hard life. It's just for fun.
 
 ## Setup
 

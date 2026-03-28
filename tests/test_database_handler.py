@@ -3,7 +3,7 @@ import sqlite3
 import pandas as pd
 import pytest
 
-from fincaplab.common.database_handler import get_db_connection, run_execute, run_query
+from fintoylab.common.database_handler import get_db_connection, run_execute, run_query
 
 # ==========================================
 # FIXTURES
@@ -15,7 +15,7 @@ def mock_db(tmp_path):
     创建一个临时数据库文件，测试完成后自动删除。
     tmp_path 是 pytest 内置的 fixture，提供安全的临时目录。
     """
-    db_file = tmp_path / "test_fincap.db"
+    db_file = tmp_path / "test_fintoy.db"
     db_path = str(db_file)
     
     # 初始化一个简单的测试表
